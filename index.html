@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบวางแผนและคำนวณการแพ็คเทปลงกล่อง</title>
+    <!-- Tailwind CSS for Premium UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        /* ซ่อนปุ่มลูกศรขึ้น-ลง (Spinners) ของ input type="number" ทุกเบราว์เซอร์ */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 min-h-screen pb-12">
+
+    <!-- Header Banner -->
+    <header class="bg-gradient-to-r from-amber-800 to-amber-950 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-amber-500 p-2.5 rounded-xl shadow-inner text-amber-950">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight">ระบบวางแผนและคำนวณการแพ็คเทปลงกล่อง</h1>
+                    <p class="text-amber-200/80 text-xs sm:text-sm">คำนวณจำนวนม้วนที่มากที่สุด พร้อมระบบจำลองภาพ 2 มิติด้วย Canvas</p>
+                </div>
+            </div>
+            <div class="bg-amber-600/30 border border-amber-500/30 px-3 py-1.5 rounded-full text-xs font-semibold text-amber-200 self-start sm:self-center">
+                เวอร์ชันใช้งานจริง 2.8
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- LEFT PANEL: INPUTS (lg:col-span-5) -->
+            <section class="lg:col-span-5 space-y-6 flex flex-col">
+                
+                <!-- Box Dimensions Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
+                    <div class="flex items-center gap-2 pb-3 border-b border-stone-100">
+                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">1</span>
+                        <h2 class="text-lg font-bold text-stone-900">ระบุขนาดกล่องพัสดุ (ภายนอก)</h2>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3">
+                        <div>
+                            <!-- Fixed height with flex items-end ensures perfect line balance for inputs -->
+                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-8 flex items-end">ความกว้าง (W) <span class="text-red-500 ml-0.5">*</span></label>
+                            <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
+                                <input type="number" id="boxW" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="27.5" step="0.1" min="1">
+                                <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-8 flex items-end">ความยาว (L) <span class="text-red-500 ml-0.5">*</span></label>
+                            <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
+                                <input type="number" id="boxL" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="42.0" step="0.1" min="1">
+                                <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-8 flex items-end">ความสูง (H) <span class="text-red-500 ml-0.5">*</span></label>
+                            <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
+                                <input type="number" id="boxH" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="31.5" step="0.1" min="1">
+                                <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tolerance Slider -->
+                    <div class="pt-2">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-medium text-stone-600">เผื่อความหนากล่องและช่องว่างซ้าย-ขวา (Tolerance)</span>
+                            <span class="text-xs font-bold text-amber-600" id="toleranceVal">0.2 ซม.</span>
+                        </div>
+                        <input type="range" id="tolerance" min="0" max="2" step="0.1" value="0.2" class="w-full h-1.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-amber-600">
+                        <p class="text-[10px] text-stone-400 mt-1">ระบบจะหักค่านี้ออกจากขนาดกล่องภายนอกเพื่อใช้เป็นพื้นที่ทำงานจริงในการคำนวณ</p>
+                    </div>
+                </div>
+
+                <!-- Tape Dimensions Card (Balanced Labels & Layouts) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
+                    <div class="flex items-center gap-2 pb-3 border-b border-stone-100">
+                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">2</span>
+                        <h2 class="text-lg font-bold text-stone-900">ระบุขนาดม้วนเทป</h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <!-- Fixed height and flex items-end resolves misalignment in wrapped multi-line labels -->
+                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-8 flex items-end">เส้นผ่านศูนย์กลางม้วน (D)</label>
+                            <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
+                                <input type="number" id="tapeD" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="12.0" step="0.1" min="1">
+                                <select id="tapeDUnit" class="bg-stone-100 text-xs text-stone-600 font-bold px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
+                                    <option value="cm">ซม.</option>
+                                    <option value="mm">มม.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-8 flex items-end">หน้ากว้าง / ความหนาเทป (W)</label>
+                            <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
+                                <input type="number" id="tapeW" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="2.4" step="0.1" min="0.1">
+                                <select id="tapeWUnit" class="bg-stone-100 text-xs text-stone-600 font-bold px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
+                                    <option value="cm">ซม.</option>
+                                    <option value="mm">มม.</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Useful Packing Tips Card to balance the layout vertically on desktop -->
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 flex-1 hidden md:block">
+                    <h3 class="text-xs font-bold text-stone-900 flex items-center gap-1.5 uppercase tracking-wide">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        คำแนะนำในการจัดแพ็คและขนส่ง
+                    </h3>
+                    <ul class="text-[11px] text-stone-500 space-y-2 leading-relaxed">
+                        <li class="flex items-start gap-1.5">
+                            <span class="text-amber-500 font-bold mt-0.5">•</span>
+                            <span><strong>ทิศทางการรับแรงกด:</strong> การวางแกนตั้งขึ้น (วางนอนราบ) จะช่วยให้กล่องรับน้ำหนักได้สูงสุดและป้องกันแกนกระดาษคดงอระหว่างการวางซ้อนของขนส่ง</span>
+                        </li>
+                        <li class="flex items-start gap-1.5">
+                            <span class="text-amber-500 font-bold mt-0.5">•</span>
+                            <span><strong>พื้นที่ขอบกันกระแทก:</strong> ค่า Tolerance ที่กำหนดไว้ (แนะนำ 0.2-0.5 ซม.) จะถูกหักออกเพื่อเป็นระยะคลายตัวและการใส่แผ่นรองกล่องหน้า-หลังอย่างสะดวก</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: CALCULATION RESULTS & INTERACTIVE CANVAS (lg:col-span-7) -->
+            <section class="lg:col-span-7 space-y-6">
+                
+                <!-- KPI Dashboard & Orientation Card -->
+                <div class="bg-gradient-to-br from-stone-850 to-stone-950 bg-stone-900 rounded-2xl shadow-lg border border-stone-800 text-white p-6 relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 opacity-5 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-64 h-64" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <span class="text-xs font-bold text-amber-400 tracking-wider uppercase">ผลลัพธ์การคำนวณที่ดีที่สุด</span>
+                            <h2 class="text-2xl font-black mt-1">แพ็คได้สูงสุดต่อกล่อง</h2>
+                        </div>
+                        <span class="bg-amber-500 text-stone-950 text-[11px] font-black px-3.5 py-1.5 rounded-full shadow-md" id="bestOrientationTag">
+                            วางนอนราบ (แกนตั้งขึ้น)
+                        </span>
+                    </div>
+
+                    <!-- Main Number and Breakdown Rows Detail -->
+                    <div class="mt-6 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-6xl sm:text-7xl font-black text-amber-400 tracking-tight" id="kpiTotal">0</span>
+                            <span class="text-lg sm:text-xl font-bold text-stone-300">ม้วน / กล่อง</span>
+                        </div>
+                        
+                        <!-- Detailed packing breakdown badge -->
+                        <div class="bg-stone-800/80 border border-stone-700/50 rounded-xl px-4 py-2.5 text-xs text-stone-300 flex flex-wrap sm:flex-nowrap gap-x-3 gap-y-1 items-center shadow-inner" id="packingBreakdown">
+                            <!-- Generated Dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-stone-800/80 text-xs text-stone-400">
+                        <div>
+                            <p class="text-[10px] text-stone-500 font-bold uppercase">ขนาดใช้งานในกล่อง:</p>
+                            <p class="text-sm font-semibold text-stone-200 mt-1" id="usableBoxSize">-</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-stone-500 font-bold uppercase">ปริมาตรรวมเทปที่จัดลงได้:</p>
+                            <p class="text-sm font-semibold text-stone-200 mt-1" id="totalTapeVolume">-</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-stone-500 font-bold uppercase">ประสิทธิภาพการใช้พื้นที่:</p>
+                            <p class="text-sm font-black text-amber-400 mt-1" id="efficiencyVal">0.0%</p>
+                        </div>
+                    </div>
+
+                    <!-- Consolidated PNG Report Exporter Button (Fixed Icon Scale) -->
+                    <div class="mt-6 pt-5 border-t border-stone-800/80 flex">
+                        <button onclick="downloadPNGReport()" class="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 py-3 px-4 rounded-xl text-xs font-black tracking-wide transition flex items-center justify-center gap-2 shadow-lg active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span>ดาวน์โหลดรายงานสรุปเป็นรูปภาพ (PNG Report)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Canvas Visualizer Container Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-3 border-b border-stone-100">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">3</span>
+                            <h2 class="text-lg font-bold text-stone-900">แผนภาพจำลองการจัดวางพัสดุ</h2>
+                        </div>
+                        
+                        <!-- Tabs Controls - Styled to scale perfectly and prevent awkward text cutting -->
+                        <div class="bg-stone-100 p-1 rounded-xl flex gap-1 w-full md:w-auto">
+                            <button onclick="switchTab('top')" id="btnTabTop" class="flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap">
+                                มุมมองด้านบน (Top View)
+                            </button>
+                            <button onclick="switchTab('side')" id="btnTabSide" class="flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap">
+                                มุมมองด้านข้าง (Side View)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Wrapper for responsive scaling -->
+                    <div class="bg-stone-50 rounded-xl border border-stone-200 p-4 flex flex-col items-center justify-center relative min-h-[380px]">
+                        <canvas id="visualCanvas" class="max-w-full block"></canvas>
+                        
+                        <div class="absolute bottom-2 text-[10px] text-stone-400 font-medium text-center pointer-events-none w-full">
+                            * แสดงแผนภาพจำลองการบรรจุตามสัดส่วนจริง (Scale 2D) บนกล่องขนาดภายในใช้งาน
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-xs text-stone-500 px-1 pt-1">
+                        <div class="flex items-center gap-1.5">
+                            <span class="inline-block w-3 h-3 bg-amber-500/20 border border-amber-600 rounded"></span>
+                            <span>ขอบเขตจำลองขนาดเทป</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="inline-block w-3 h-3 border border-stone-400 border-dashed rounded"></span>
+                            <span>ขนาดเผื่อช่องว่างขอบ (Tolerance)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- MAIN APP CONTROLLER & CALCULATION ENGINE -->
+    <script>
+        // DOM Elements
+        const boxW_Input = document.getElementById('boxW');
+        const boxL_Input = document.getElementById('boxL');
+        const boxH_Input = document.getElementById('boxH');
+        const tapeD_Input = document.getElementById('tapeD');
+        const tapeW_Input = document.getElementById('tapeW');
+        const toleranceInput = document.getElementById('tolerance');
+        const toleranceVal = document.getElementById('toleranceVal');
+
+        // Unit Dropdown Selectors
+        const tapeDUnit_Select = document.getElementById('tapeDUnit');
+        const tapeWUnit_Select = document.getElementById('tapeWUnit');
+
+        const kpiTotal = document.getElementById('kpiTotal');
+        const bestOrientationTag = document.getElementById('bestOrientationTag');
+        const usableBoxSizeLabel = document.getElementById('usableBoxSize');
+        const totalTapeVolumeLabel = document.getElementById('totalTapeVolume');
+        const efficiencyValLabel = document.getElementById('efficiencyVal');
+        const packingBreakdown = document.getElementById('packingBreakdown');
+
+        const canvas = document.getElementById('visualCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+
+        // Global State variables
+        let currentTab = 'top'; // 'top' or 'side'
+        let packingResult = null;
+
+        // Tracks previous unit states for smart input conversions
+        let prevTapeDUnit = 'cm';
+        let prevTapeWUnit = 'cm';
+
+        // Listen for live input changes to trigger instant calculation and canvas redraw
+        [boxW_Input, boxL_Input, boxH_Input, tapeD_Input, tapeW_Input, toleranceInput].forEach(element => {
+            if (element) {
+                element.addEventListener('input', () => {
+                    if (element.id === 'tolerance') {
+                        toleranceVal.innerText = `${parseFloat(element.value).toFixed(1)} ซม.`;
+                    }
+                    calculateOptimalPacking();
+                });
+            }
+        });
+
+        // Smart dynamic unit conversion logic for Tape Diameter (D)
+        if (tapeDUnit_Select) {
+            tapeDUnit_Select.addEventListener('change', (e) => {
+                const currentUnit = e.target.value;
+                const val = parseFloat(tapeD_Input.value) || 0;
+                if (val > 0) {
+                    if (prevTapeDUnit === 'cm' && currentUnit === 'mm') {
+                        tapeD_Input.value = (val * 10).toFixed(1);
+                    } else if (prevTapeDUnit === 'mm' && currentUnit === 'cm') {
+                        tapeD_Input.value = (val / 10).toFixed(1);
+                    }
+                }
+                prevTapeDUnit = currentUnit;
+                calculateOptimalPacking();
+            });
+        }
+
+        // Smart dynamic unit conversion logic for Tape Width (W)
+        if (tapeWUnit_Select) {
+            tapeWUnit_Select.addEventListener('change', (e) => {
+                const currentUnit = e.target.value;
+                const val = parseFloat(tapeW_Input.value) || 0;
+                if (val > 0) {
+                    if (prevTapeWUnit === 'cm' && currentUnit === 'mm') {
+                        tapeW_Input.value = (val * 10).toFixed(1);
+                    } else if (prevTapeWUnit === 'mm' && currentUnit === 'cm') {
+                        tapeW_Input.value = (val / 10).toFixed(1);
+                    }
+                }
+                prevTapeWUnit = currentUnit;
+                calculateOptimalPacking();
+            });
+        }
+
+        // Resize observer or window listener to keep the canvas sharp
+        window.addEventListener('resize', () => {
+            if (packingResult) {
+                renderSimulation();
+            }
+        });
+
+        // Initialize App on load with error prevention
+        window.onload = () => {
+            try {
+                calculateOptimalPacking();
+            } catch (err) {
+                console.error("Initialization error:", err);
+            }
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            const btnTop = document.getElementById('btnTabTop');
+            const btnSide = document.getElementById('btnTabSide');
+
+            if (tabName === 'top') {
+                btnTop.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap";
+                btnSide.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap";
+            } else {
+                btnSide.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap";
+                btnTop.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap";
+            }
+
+            renderSimulation();
+        }
+
+        // Helper function to safely calculate whole rows/columns without floating point precision errors
+        function getFitCount(space, size) {
+            if (size <= 0 || space <= 0) return 0;
+            return Math.floor((space + 0.00001) / size);
+        }
+
+        // Main algorithm to find the absolute maximum packing efficiency on box orientations
+        function calculateOptimalPacking() {
+            // Fetch inputs with fallbacks
+            const rawW = parseFloat(boxW_Input.value) || 0;
+            const rawL = parseFloat(boxL_Input.value) || 0;
+            const rawH = parseFloat(boxH_Input.value) || 0;
+            
+            // Read raw tape input values
+            let tapeD = parseFloat(tapeD_Input.value) || 0;
+            let tapeW = parseFloat(tapeW_Input.value) || 0;
+            const tolerance = parseFloat(toleranceInput.value) || 0;
+
+            // Convert tape inputs to Centimeters (cm) if they are currently set to Millimeters (mm)
+            if (tapeDUnit_Select && tapeDUnit_Select.value === 'mm') {
+                tapeD = tapeD / 10;
+            }
+            if (tapeWUnit_Select && tapeWUnit_Select.value === 'mm') {
+                tapeW = tapeW / 10;
+            }
+
+            // Compute actual working size with precise rounding to prevent floating-point subtraction errors
+            const innerW = Math.max(0, Math.round((rawW - tolerance) * 1000) / 1000);
+            const innerL = Math.max(0, Math.round((rawL - tolerance) * 1000) / 1000);
+            const innerH = Math.max(0, Math.round((rawH - tolerance) * 1000) / 1000);
+
+            if (innerW <= 0 || innerL <= 0 || innerH <= 0 || tapeD <= 0 || tapeW <= 0) {
+                kpiTotal.innerText = '0';
+                efficiencyValLabel.innerText = '0.0%';
+                if (packingBreakdown) packingBreakdown.innerHTML = '';
+                return;
+            }
+
+            // Stacking safety clearance of 0.5 cm
+            const stackClearance = 0.5;
+
+            // --- ORIENTATION 1: FLAT/VERTICAL LAYOUT ---
+            const r1_Cols = getFitCount(innerL, tapeD);
+            const r1_Rows = getFitCount(innerW, tapeD);
+            const r1_Layers = getFitCount(innerH - stackClearance, tapeW);
+            const r1_Total = r1_Cols * r1_Rows * r1_Layers;
+
+            // --- ORIENTATION 2: STANDING SIDEWAYS / LENGTH-WISE ---
+            const r2_Cols = getFitCount(innerL, tapeD);
+            const r2_Rows = getFitCount(innerH, tapeD);
+            const r2_Layers = getFitCount(innerW - stackClearance, tapeW);
+            const r2_Total = r2_Cols * r2_Rows * r2_Layers;
+
+            // --- ORIENTATION 3: STANDING SIDEWAYS / WIDTH-WISE ---
+            const r3_Cols = getFitCount(innerW, tapeD);
+            const r3_Rows = getFitCount(innerH, tapeD);
+            const r3_Layers = getFitCount(innerL - stackClearance, tapeW);
+            const r3_Total = r3_Cols * r3_Rows * r3_Layers;
+
+            // Compare orientations to pick the winner
+            let bestWay = 'vertical';
+            let bestTotal = r1_Total;
+            let orientationText = "วางนอนราบ (แกนตั้งขึ้น)";
+
+            if (r2_Total > bestTotal) {
+                bestTotal = r2_Total;
+                bestWay = 'horizontal_l';
+                orientationText = "วางตะแคงแนวยาว (แกนนอน)";
+            }
+            if (r3_Total > bestTotal) {
+                bestTotal = r3_Total;
+                bestWay = 'horizontal_w';
+                orientationText = "วางตะแคงแนวขวาง (แกนนอน)";
+            }
+
+            // Save results into global state (Always stores tapeD and tapeW normalized as centimeters)
+            packingResult = {
+                rawW, rawL, rawH,
+                innerW, innerL, innerH,
+                tapeD, tapeW, tolerance,
+                bestWay,
+                bestTotal,
+                orientationText,
+                config: getLayoutConfig(bestWay, innerW, innerL, innerH, tapeD, tapeW, stackClearance)
+            };
+
+            // Update UI Total & Info
+            kpiTotal.innerText = bestTotal;
+            if (bestOrientationTag) bestOrientationTag.innerText = orientationText;
+            if (usableBoxSizeLabel) usableBoxSizeLabel.innerText = `${innerW.toFixed(1)} x ${innerL.toFixed(1)} x ${innerH.toFixed(1)} ซม.`;
+
+            // Calculate Volume & Efficiency
+            const boxVolume = rawW * rawL * rawH;
+            const tapeVol = Math.PI * Math.pow(tapeD / 2, 2) * tapeW;
+            const totalTapeVol = bestTotal * tapeVol;
+            const efficiency = (boxVolume > 0) ? (totalTapeVol / boxVolume) * 100 : 0;
+
+            if (totalTapeVolumeLabel) totalTapeVolumeLabel.innerText = `${Math.round(totalTapeVol).toLocaleString()} ลบ.ซม.`;
+            if (efficiencyValLabel) efficiencyValLabel.innerText = `${efficiency.toFixed(1)}%`;
+
+            // Update Detailed Row/Stack Breakdown UI
+            const grid = packingResult.config;
+            const totalStacks = grid.rows * grid.cols; 
+            let labelDepth = (bestWay === 'vertical') ? 'สูง' : 'ลึก';
+            let detailText = "";
+            
+            if (bestWay === 'vertical') {
+                detailText = `กว้าง ${grid.rows} × ยาว ${grid.cols}`;
+            } else if (bestWay === 'horizontal_l') {
+                detailText = `สูง ${grid.rows} × ยาว ${grid.cols}`;
+            } else {
+                detailText = `สูง ${grid.rows} × กว้าง ${grid.cols}`;
+            }
+
+            if (packingBreakdown) {
+                packingBreakdown.innerHTML = `
+                    <span class="text-[10px] text-stone-500 font-bold uppercase tracking-wider block mr-1 sm:border-r sm:border-stone-700 sm:pr-3">ผลการจัดแถว:</span>
+                    <span class="text-stone-200">จัดได้ <span class="font-bold text-amber-400">${totalStacks} ตั้ง/กอง</span> (${detailText})</span>
+                    <span class="text-stone-700 hidden sm:inline">|</span>
+                    <span class="text-stone-200">${labelDepth}: <span class="font-bold text-amber-400">${grid.layers} ชั้น</span></span>
+                `;
+            }
+
+            // Redraw canvas simulation
+            renderSimulation();
+        }
+
+        // Helper structure for layout coordinates
+        function getLayoutConfig(orientation, w, l, h, td, tw, stackClearance = 0.5) {
+            if (orientation === 'vertical') {
+                return {
+                    cols: getFitCount(l, td), // along length
+                    rows: getFitCount(w, td), // along width
+                    layers: getFitCount(h - stackClearance, tw), // along height (with vertical margin)
+                };
+            } else if (orientation === 'horizontal_l') {
+                return {
+                    cols: getFitCount(l, td), // along length
+                    rows: getFitCount(h, td), // along height
+                    layers: getFitCount(w - stackClearance, tw), // along width (with vertical margin)
+                };
+            } else { // horizontal_w
+                return {
+                    cols: getFitCount(w, td), // along width
+                    rows: getFitCount(h, td), // along height
+                    layers: getFitCount(l - stackClearance, tw), // along length (with vertical margin)
+                };
+            }
+        }
+
+        // Beautiful rendering engine with high resolution 2D Canvas layout simulation
+        function renderSimulation() {
+            if (!packingResult || !canvas || !ctx) return;
+
+            const r = packingResult;
+            const { bestWay, innerW, innerL, innerH, tapeD, tapeW, rawW, rawL, rawH, tolerance } = r;
+
+            // Set canvas target width dynamically based on parent wrapper width
+            const parentWidth = Math.max(280, canvas.parentNode ? canvas.parentNode.clientWidth - 32 : 300);
+            canvas.style.width = `${parentWidth}px`;
+            canvas.style.height = `350px`;
+
+            // Adjust internal canvas viewport for high-DPI retina displays
+            const scaleDPI = window.devicePixelRatio || 1;
+            canvas.width = parentWidth * scaleDPI;
+            canvas.height = 350 * scaleDPI;
+            ctx.scale(scaleDPI, scaleDPI);
+
+            const cw = parentWidth;
+            const ch = 350;
+
+            // Reset backgrounds
+            ctx.clearRect(0, 0, cw, ch);
+            ctx.fillStyle = "#faf9f6";
+            ctx.fillRect(0, 0, cw, ch);
+
+            // Determine dimensions based on selected Tab and packing configuration
+            let displayXDim, displayYDim; 
+            let labelXText = "", labelYText = "";
+
+            if (currentTab === 'top') {
+                displayXDim = rawL;
+                displayYDim = rawW;
+                labelXText = `ความยาว: ${rawL.toFixed(1)} ซม.`;
+                labelYText = `ความกว้าง: ${rawW.toFixed(1)} ซม.`;
+            } else {
+                if (bestWay === 'horizontal_w') {
+                    displayXDim = rawW;
+                    displayYDim = rawH;
+                    labelXText = `ความกว้าง: ${rawW.toFixed(1)} ซม.`;
+                    labelYText = `ความสูง: ${rawH.toFixed(1)} ซม.`;
+                } else {
+                    displayXDim = rawL;
+                    displayYDim = rawH;
+                    labelXText = `ความยาว: ${rawL.toFixed(1)} ซม.`;
+                    labelYText = `ความสูง: ${rawH.toFixed(1)} ซม.`;
+                }
+            }
+
+            const padding = 55;
+            const drawAreaW = cw - (padding * 2);
+            const drawAreaH = ch - (padding * 2);
+
+            const scale = Math.min(drawAreaW / displayXDim, drawAreaH / displayYDim);
+
+            const boxDrawW = displayXDim * scale;
+            const boxDrawH = displayYDim * scale;
+            const startX = padding + (drawAreaW - boxDrawW) / 2;
+            const startY = padding + (drawAreaH - boxDrawH) / 2;
+
+            const tolOffset = tolerance * scale;
+
+            // Outer box boundary lines
+            ctx.strokeStyle = "#a8a29e";
+            ctx.lineWidth = 2.5;
+            ctx.strokeRect(startX, startY, boxDrawW, boxDrawH);
+
+            // Inner boundary (dashed orange box representing usable space)
+            if (tolerance > 0) {
+                ctx.strokeStyle = "#f97316";
+                ctx.lineWidth = 1.2;
+                ctx.setLineDash([4, 4]);
+                ctx.strokeRect(
+                    startX + (tolOffset / 2), 
+                    startY + (tolOffset / 2), 
+                    boxDrawW - tolOffset, 
+                    boxDrawH - tolOffset
+                );
+                ctx.setLineDash([]);
+            }
+
+            // Draw Dimension arrows & text
+            ctx.fillStyle = "#57534e";
+            ctx.font = "bold 11px Sarabun";
+            ctx.textAlign = "center";
+
+            const dimOffset = 25;
+            drawDimensionLine(ctx, startX, startY + boxDrawH + dimOffset, startX + boxDrawW, startY + boxDrawH + dimOffset, labelXText);
+
+            ctx.save();
+            ctx.translate(startX - dimOffset, startY + boxDrawH / 2);
+            ctx.rotate(-Math.PI / 2);
+            drawDimensionLine(ctx, 0, -boxDrawH/2, 0, boxDrawH/2, labelYText);
+            ctx.restore();
+
+            const innerStartX = startX + (tolOffset / 2);
+            const innerStartY = startY + (tolOffset / 2);
+            const tapeDrawD = tapeD * scale;
+            const tapeDrawW = tapeW * scale;
+
+            ctx.lineWidth = 1.5;
+
+            if (bestWay === 'vertical') {
+                if (currentTab === 'top') {
+                    const grid = r.config;
+                    for (let rIdx = 0; rIdx < grid.rows; rIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const cx = innerStartX + (cIdx * tapeDrawD) + (tapeDrawD / 2);
+                            const cy = innerStartY + (rIdx * tapeDrawD) + (tapeDrawD / 2);
+                            drawTapeCircle(ctx, cx, cy, tapeDrawD);
+                        }
+                    }
+                } else {
+                    const grid = r.config;
+                    for (let lIdx = 0; lIdx < grid.layers; lIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const rx = innerStartX + (cIdx * tapeDrawD);
+                            const ry = innerStartY + boxDrawH - tolOffset - ((lIdx + 1) * tapeDrawW);
+                            drawTapeRectangle(ctx, rx, ry, tapeDrawD, tapeDrawW);
+                        }
+                    }
+                }
+            } 
+            else if (bestWay === 'horizontal_l') {
+                if (currentTab === 'top') {
+                    const grid = r.config;
+                    for (let lIdx = 0; lIdx < grid.layers; lIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const rx = innerStartX + (cIdx * tapeDrawD);
+                            const ry = innerStartY + (lIdx * tapeDrawW);
+                            drawTapeRectangle(ctx, rx, ry, tapeDrawD, tapeDrawW);
+                        }
+                    }
+                } else {
+                    const grid = r.config;
+                    for (let rIdx = 0; rIdx < grid.rows; rIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const cx = innerStartX + (cIdx * tapeDrawD) + (tapeDrawD / 2);
+                            const cy = innerStartY + boxDrawH - tolOffset - (rIdx * tapeDrawD) - (tapeDrawD / 2);
+                            drawTapeCircle(ctx, cx, cy, tapeDrawD);
+                        }
+                    }
+                }
+            } 
+            else { // horizontal_w
+                if (currentTab === 'top') {
+                    const grid = r.config;
+                    for (let lIdx = 0; lIdx < grid.layers; lIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const ry = innerStartY + (cIdx * tapeDrawD);
+                            const rx = innerStartX + (lIdx * tapeDrawW);
+                            drawTapeRectangle(ctx, rx, ry, tapeDrawW, tapeDrawD, true);
+                        }
+                    }
+                } else {
+                    const grid = r.config;
+                    for (let rIdx = 0; rIdx < grid.rows; rIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const cx = innerStartX + (cIdx * tapeDrawD) + (tapeDrawD / 2);
+                            const cy = innerStartY + boxDrawH - tolOffset - (rIdx * tapeDrawD) - (tapeDrawD / 2);
+                            drawTapeCircle(ctx, cx, cy, tapeDrawD);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Draw dimension lines with stylish arrowheads on end points
+        function drawDimensionLine(targetCtx, x1, y1, x2, y2, text) {
+            targetCtx.strokeStyle = "#78716c";
+            targetCtx.lineWidth = 1;
+
+            targetCtx.beginPath();
+            targetCtx.moveTo(x1, y1);
+            targetCtx.lineTo(x2, y2);
+            targetCtx.stroke();
+
+            const arrowSize = 4;
+            targetCtx.fillStyle = "#78716c";
+
+            if (x1 === x2) { // Vertical line
+                targetCtx.beginPath();
+                targetCtx.moveTo(x1 - arrowSize, y1 + arrowSize);
+                targetCtx.lineTo(x1, y1);
+                targetCtx.lineTo(x1 + arrowSize, y1 + arrowSize);
+                targetCtx.fill();
+
+                targetCtx.beginPath();
+                targetCtx.moveTo(x2 - arrowSize, y2 - arrowSize);
+                targetCtx.lineTo(x2, y2);
+                targetCtx.lineTo(x2 + arrowSize, y2 - arrowSize);
+                targetCtx.fill();
+
+                targetCtx.save();
+                targetCtx.fillStyle = "#faf9f6";
+                targetCtx.fillRect(x1 - 10, (y1 + y2) / 2 - 25, 20, 50);
+                targetCtx.restore();
+                targetCtx.fillStyle = "#292524";
+                targetCtx.fillText(text, x1 - 10, (y1 + y2) / 2 + 3);
+            } else { // Horizontal line
+                targetCtx.beginPath();
+                targetCtx.moveTo(x1 + arrowSize, y1 - arrowSize);
+                targetCtx.lineTo(x1, y1);
+                targetCtx.lineTo(x1 + arrowSize, y1 + arrowSize);
+                targetCtx.fill();
+
+                targetCtx.beginPath();
+                targetCtx.moveTo(x2 - arrowSize, y2 - arrowSize);
+                targetCtx.lineTo(x2, y2);
+                targetCtx.lineTo(x2 - arrowSize, y2 + arrowSize);
+                targetCtx.fill();
+
+                targetCtx.fillStyle = "#faf9f6";
+                const textWidth = targetCtx.measureText(text).width;
+                targetCtx.fillRect((x1 + x2) / 2 - (textWidth/2 + 6), y1 - 8, textWidth + 12, 16);
+
+                targetCtx.fillStyle = "#292524";
+                targetCtx.fillText(text, (x1 + x2) / 2, y1 + 3);
+            }
+        }
+
+        // Beautiful custom-made adhesive tape circle visualizer
+        function drawTapeCircle(targetCtx, cx, cy, diameter) {
+            const radius = diameter / 2;
+            const coreRadius = radius * 0.35;
+
+            targetCtx.fillStyle = "rgba(245, 158, 11, 0.15)";
+            targetCtx.beginPath();
+            targetCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+            targetCtx.fill();
+
+            targetCtx.strokeStyle = "#d97706";
+            targetCtx.lineWidth = 1.8;
+            targetCtx.beginPath();
+            targetCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+            targetCtx.stroke();
+
+            targetCtx.strokeStyle = "rgba(217, 119, 6, 0.4)";
+            targetCtx.lineWidth = 0.5;
+            targetCtx.beginPath();
+            targetCtx.arc(cx, cy, radius * 0.8, 0, Math.PI * 2);
+            targetCtx.stroke();
+            targetCtx.beginPath();
+            targetCtx.arc(cx, cy, radius * 0.6, 0, Math.PI * 2);
+            targetCtx.stroke();
+
+            targetCtx.fillStyle = "#fafaf9";
+            targetCtx.beginPath();
+            targetCtx.arc(cx, cy, coreRadius, 0, Math.PI * 2);
+            targetCtx.fill();
+
+            targetCtx.strokeStyle = "#78716c";
+            targetCtx.lineWidth = 1;
+            targetCtx.beginPath();
+            targetCtx.arc(cx, cy, coreRadius, 0, Math.PI * 2);
+            targetCtx.stroke();
+        }
+
+        // Draw rectangular side-profile view of packed tape roll
+        function drawTapeRectangle(targetCtx, rx, ry, rectW, rectH, transposed = false) {
+            targetCtx.fillStyle = "rgba(245, 158, 11, 0.12)";
+            targetCtx.fillRect(rx, ry, rectW, rectH);
+
+            targetCtx.strokeStyle = "#d97706";
+            targetCtx.lineWidth = 1.5;
+            targetCtx.strokeRect(rx, ry, rectW, rectH);
+
+            targetCtx.strokeStyle = "#a8a29e";
+            targetCtx.lineWidth = 1;
+            targetCtx.setLineDash([2, 2]);
+
+            if (!transposed) {
+                targetCtx.beginPath();
+                targetCtx.moveTo(rx + (rectW / 2), ry);
+                targetCtx.lineTo(rx + (rectW / 2), ry + rectH);
+                targetCtx.stroke();
+            } else {
+                targetCtx.beginPath();
+                targetCtx.moveTo(rx, ry + (rectH / 2));
+                targetCtx.lineTo(rx + rectW, ry + (rectH / 2));
+                targetCtx.stroke();
+            }
+
+            targetCtx.setLineDash([]);
+        }
+
+        // Utility to draw beautiful rounded rectangles in reports
+        function drawRoundedRect(targetCtx, x, y, width, height, radius, fill, stroke) {
+            targetCtx.beginPath();
+            targetCtx.moveTo(x + radius, y);
+            targetCtx.lineTo(x + width - radius, y);
+            targetCtx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            targetCtx.lineTo(x + width, y + height - radius);
+            targetCtx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            targetCtx.lineTo(x + radius, y + height);
+            targetCtx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            targetCtx.lineTo(x, y + radius);
+            targetCtx.quadraticCurveTo(x, y, x + radius, y);
+            targetCtx.closePath();
+            if (fill) {
+                targetCtx.fillStyle = fill;
+                targetCtx.fill();
+            }
+            if (stroke) {
+                targetCtx.strokeStyle = stroke;
+                targetCtx.lineWidth = 1.5;
+                targetCtx.stroke();
+            }
+        }
+
+        // EXPORT TO HIGH-RESOLUTION CONSOLIDATED PNG INFOGRAPHIC REPORT
+        function downloadPNGReport() {
+            if (!packingResult) {
+                alert("กรุณาระบุขนาดกล่องและเทปที่ถูกต้องก่อนดาวน์โหลดรายงาน");
+                return;
+            }
+
+            const r = packingResult;
+            const { bestWay, innerW, innerL, innerH, tapeD, tapeW, rawW, rawL, rawH, tolerance } = r;
+
+            // 1. Create offscreen canvas for high-quality printing
+            const repCanvas = document.createElement('canvas');
+            repCanvas.width = 800;
+            repCanvas.height = 1120; // Perfect standard letter height ratio
+            const rCtx = repCanvas.getContext('2d');
+
+            // 2. Base Background Fill
+            rCtx.fillStyle = "#faf9f6"; // stone-50
+            rCtx.fillRect(0, 0, 800, 1120);
+
+            // 3. Header Section (Elegant Charcoal/Amber Gradient Style)
+            rCtx.fillStyle = "#1c1917"; // stone-900
+            rCtx.fillRect(0, 0, 800, 130);
+            rCtx.fillStyle = "#fbbf24"; // amber-400 decorative line
+            rCtx.fillRect(0, 126, 800, 4);
+
+            // Header Text elements
+            rCtx.fillStyle = "#ffffff";
+            rCtx.font = "bold 24px Sarabun";
+            rCtx.fillText("ระบบวางแผนและคำนวณการแพ็คเทปลงกล่อง", 40, 58);
+
+            rCtx.fillStyle = "#d6d3d1";
+            rCtx.font = "13px Sarabun";
+            rCtx.fillText("รายงานสรุปวิเคราะห์การจัดเรียงผลิตภัณฑ์ในกล่องบรรจุภัณฑ์พัสดุ", 40, 94);
+
+            // Header Timestamp on the right side
+            const dateStr = new Date().toLocaleString('th-TH', { 
+                year: 'numeric', month: 'long', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit' 
+            });
+            rCtx.fillStyle = "#fbbf24";
+            rCtx.font = "bold 12px Sarabun";
+            rCtx.textAlign = "right";
+            rCtx.fillText(dateStr, 760, 58);
+            rCtx.textAlign = "left"; // reset alignment
+
+            // 4. KPI Main Results Card Container
+            drawRoundedRect(rCtx, 40, 160, 720, 150, 16, '#292524', null); // stone-800 rounded card
+
+            // KPI Inner Text Elements
+            rCtx.fillStyle = "#a8a29e";
+            rCtx.font = "12px Sarabun";
+            rCtx.fillText("ผลการจัดเรียงที่ดีที่สุดต่อกล่อง", 70, 198);
+
+            rCtx.fillStyle = "#fbbf24"; // Amber-400 primary color
+            rCtx.font = "bold 52px Sarabun";
+            rCtx.fillText(`${r.bestTotal} ม้วน`, 70, 265);
+
+            // Best Orientation Pill/Badge (top-right of KPI card)
+            drawRoundedRect(rCtx, 470, 190, 260, 36, 18, '#fbbf24', null);
+            rCtx.fillStyle = "#1c1917";
+            rCtx.font = "bold 12px Sarabun";
+            rCtx.textAlign = "center";
+            rCtx.fillText(r.orientationText, 600, 212);
+            rCtx.textAlign = "left"; // reset
+
+            // Performance KPI list in KPI card
+            rCtx.fillStyle = "#fafaf9";
+            rCtx.font = "13px Sarabun";
+            rCtx.fillText(`ประสิทธิภาพใช้พื้นที่:  ${efficiencyValLabel.innerText}`, 480, 255);
+            rCtx.fillStyle = "#d6d3d1";
+            rCtx.fillText(`ปริมาตรรวมที่บรรจุได้:  ${totalTapeVolumeLabel.innerText}`, 480, 280);
+
+            // 5. Specifications Cards Side-by-Side (Double Column)
+            // Left Card: Box Specifications
+            drawRoundedRect(rCtx, 40, 335, 345, 235, 12, '#ffffff', '#e7e5e4');
+            rCtx.fillStyle = "#1c1917";
+            rCtx.font = "bold 15px Sarabun";
+            rCtx.fillText("📦 รายละเอียดกล่องพัสดุ", 60, 375);
+            rCtx.strokeStyle = "#f5f5f4";
+            rCtx.beginPath(); rCtx.moveTo(60, 392); rCtx.lineTo(365, 392); rCtx.stroke(); // line separator
+
+            rCtx.fillStyle = "#44403c";
+            rCtx.font = "13px Sarabun";
+            rCtx.fillText(`• กว้างภายนอก (W):   ${rawW.toFixed(1)} ซม.`, 60, 420);
+            rCtx.fillText(`• ยาวภายนอก (L):   ${rawL.toFixed(1)} ซม.`, 60, 445);
+            rCtx.fillText(`• สูงภายนอก (H):   ${rawH.toFixed(1)} ซม.`, 60, 470);
+            rCtx.fillText(`• เผื่อระยะความหนาขอบ (Tolerance):  ${tolerance.toFixed(1)} ซม.`, 60, 495);
+            
+            rCtx.fillStyle = "#d97706"; // Amber-600
+            rCtx.font = "bold 13px Sarabun";
+            rCtx.fillText(`• ขนาดภายในใช้งาน:  ${innerW.toFixed(1)} x ${innerL.toFixed(1)} x ${innerH.toFixed(1)} ซม.`, 60, 530);
+
+            // Right Card: Tape Specifications
+            drawRoundedRect(rCtx, 415, 335, 345, 235, 12, '#ffffff', '#e7e5e4');
+            rCtx.fillStyle = "#1c1917";
+            rCtx.font = "bold 15px Sarabun";
+            rCtx.fillText("🎗️ ขนาดและจำนวนที่แพ็คได้", 435, 375);
+            rCtx.strokeStyle = "#f5f5f4";
+            rCtx.beginPath(); rCtx.moveTo(435, 392); rCtx.lineTo(740, 392); rCtx.stroke(); // line separator
+
+            const unitD = tapeDUnit_Select ? tapeDUnit_Select.value : 'cm';
+            const unitW = tapeWUnit_Select ? tapeWUnit_Select.value : 'cm';
+            const grid = r.config;
+
+            rCtx.fillStyle = "#44403c";
+            rCtx.font = "13px Sarabun";
+            rCtx.fillText(`• เส้นผ่านศูนย์กลาง (D):  ${parseFloat(tapeD_Input.value).toFixed(1)} ${unitD === 'mm' ? 'มม.' : 'ซม.'}`, 435, 420);
+            rCtx.fillText(`• หน้ากว้าง / หนาเทป (W):  ${parseFloat(tapeW_Input.value).toFixed(1)} ${unitW === 'mm' ? 'มม.' : 'ซม.'}`, 435, 445);
+            rCtx.fillText(`• จำนวนจัดได้ต่อชั้น:  ${grid.rows * grid.cols} ม้วน/ชั้น`, 435, 470);
+            
+            let detailArrText = "";
+            if (bestWay === 'vertical') {
+                detailArrText = `กว้าง ${grid.rows} แถว x ยาว ${grid.cols} แถว`;
+            } else if (bestWay === 'horizontal_l') {
+                detailArrText = `สูง ${grid.rows} แถว x ยาว ${grid.cols} แถว`;
+            } else {
+                detailArrText = `สูง ${grid.rows} แถว x กว้าง ${grid.cols} แถว`;
+            }
+            rCtx.fillText(`• แถวพิกัดจัดเรียง:  ${detailArrText}`, 435, 495);
+            rCtx.fillText(`• ความสูงของชั้นแพ็คแนวลึก:  ${grid.layers} ชั้น`, 435, 520);
+
+            // 6. Visual Layout Card Container
+            drawRoundedRect(rCtx, 40, 595, 720, 435, 16, '#ffffff', '#e7e5e4');
+            rCtx.fillStyle = "#1c1917";
+            rCtx.font = "bold 15px Sarabun";
+            rCtx.fillText(`🖼️ แบบร่างภาพจำลอง (${currentTab === 'top' ? 'มุมมองด้านบน - Top View' : 'มุมมองด้านข้าง - Side View'})`, 65, 635);
+            rCtx.strokeStyle = "#f5f5f4";
+            rCtx.beginPath(); rCtx.moveTo(65, 650); rCtx.lineTo(735, 650); rCtx.stroke(); // line separator
+
+            // Determine dimensions based on active selected view and orientation
+            let displayXDim, displayYDim; 
+            let labelXText = "", labelYText = "";
+
+            if (currentTab === 'top') {
+                displayXDim = rawL;
+                displayYDim = rawW;
+                labelXText = `ความยาว: ${rawL.toFixed(1)} ซม.`;
+                labelYText = `ความกว้าง: ${rawW.toFixed(1)} ซม.`;
+            } else {
+                if (bestWay === 'horizontal_w') {
+                    displayXDim = rawW;
+                    displayYDim = rawH;
+                    labelXText = `ความกว้าง: ${rawW.toFixed(1)} ซม.`;
+                    labelYText = `ความสูง: ${rawH.toFixed(1)} ซม.`;
+                } else {
+                    displayXDim = rawL;
+                    displayYDim = rawH;
+                    labelXText = `ความยาว: ${rawL.toFixed(1)} ซม.`;
+                    labelYText = `ความสูง: ${rawH.toFixed(1)} ซม.`;
+                }
+            }
+
+            // Calculations inside layout box of the report card (x bounds: 40 to 760 -> width 720)
+            const boxPadding = 50;
+            const drawAreaW = 720 - (boxPadding * 2);
+            const drawAreaH = 435 - 160;
+
+            const scale = Math.min(drawAreaW / displayXDim, drawAreaH / displayYDim);
+
+            const boxDrawW = displayXDim * scale;
+            const boxDrawH = displayYDim * scale;
+            const startX = 40 + boxPadding + (drawAreaW - boxDrawW) / 2;
+            const startY = 675 + (drawAreaH - boxDrawH) / 2;
+
+            const tolOffset = tolerance * scale;
+
+            // Draw outer box border
+            rCtx.strokeStyle = "#a8a29e";
+            rCtx.lineWidth = 3;
+            rCtx.strokeRect(startX, startY, boxDrawW, boxDrawH);
+
+            // Inner dashed boundary lines (for Tolerance distance visual support)
+            if (tolerance > 0) {
+                rCtx.strokeStyle = "#f97316";
+                rCtx.lineWidth = 1.5;
+                rCtx.setLineDash([5, 5]);
+                rCtx.strokeRect(
+                    startX + (tolOffset / 2), 
+                    startY + (tolOffset / 2), 
+                    boxDrawW - tolOffset, 
+                    boxDrawH - tolOffset
+                );
+                rCtx.setLineDash([]); // clear
+            }
+
+            // Draw Dimension arrows & text labels on the report image
+            rCtx.font = "bold 11px Sarabun";
+            rCtx.textAlign = "center";
+            drawDimensionLine(rCtx, startX, startY + boxDrawH + 25, startX + boxDrawW, startY + boxDrawH + 25, labelXText);
+
+            rCtx.save();
+            rCtx.translate(startX - 25, startY + boxDrawH / 2);
+            rCtx.rotate(-Math.PI / 2);
+            drawDimensionLine(rCtx, 0, -boxDrawH/2, 0, boxDrawH/2, labelYText);
+            rCtx.restore();
+
+            const innerStartX = startX + (tolOffset / 2);
+            const innerStartY = startY + (tolOffset / 2);
+            const tapeDrawD = tapeD * scale;
+            const tapeDrawW = tapeW * scale;
+
+            // Rendering the vector tapes inside the layout box dynamically
+            if (bestWay === 'vertical') {
+                if (currentTab === 'top') {
+                    for (let rIdx = 0; rIdx < grid.rows; rIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const cx = innerStartX + (cIdx * tapeDrawD) + (tapeDrawD / 2);
+                            const cy = innerStartY + (rIdx * tapeDrawD) + (tapeDrawD / 2);
+                            drawTapeCircle(rCtx, cx, cy, tapeDrawD);
+                        }
+                    }
+                } else {
+                    for (let lIdx = 0; lIdx < grid.layers; lIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const rx = innerStartX + (cIdx * tapeDrawD);
+                            const ry = innerStartY + boxDrawH - tolOffset - ((lIdx + 1) * tapeDrawW);
+                            drawTapeRectangle(rCtx, rx, ry, tapeDrawD, tapeDrawW);
+                        }
+                    }
+                }
+            } 
+            else if (bestWay === 'horizontal_l') {
+                if (currentTab === 'top') {
+                    for (let lIdx = 0; lIdx < grid.layers; lIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const rx = innerStartX + (cIdx * tapeDrawD);
+                            const ry = innerStartY + (lIdx * tapeDrawW);
+                            drawTapeRectangle(rCtx, rx, ry, tapeDrawD, tapeDrawW);
+                        }
+                    }
+                } else {
+                    for (let rIdx = 0; rIdx < grid.rows; rIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const cx = innerStartX + (cIdx * tapeDrawD) + (tapeDrawD / 2);
+                            const cy = innerStartY + boxDrawH - tolOffset - (rIdx * tapeDrawD) - (tapeDrawD / 2);
+                            drawTapeCircle(rCtx, cx, cy, tapeDrawD);
+                        }
+                    }
+                }
+            } 
+            else { // horizontal_w
+                if (currentTab === 'top') {
+                    for (let lIdx = 0; lIdx < grid.layers; lIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const ry = innerStartY + (cIdx * tapeDrawD);
+                            const rx = innerStartX + (lIdx * tapeDrawW);
+                            drawTapeRectangle(rCtx, ry, rx, tapeDrawW, tapeDrawD, true);
+                        }
+                    }
+                } else {
+                    for (let rIdx = 0; rIdx < grid.rows; rIdx++) {
+                        for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
+                            const cx = innerStartX + (cIdx * tapeDrawD) + (tapeDrawD / 2);
+                            const cy = innerStartY + boxDrawH - tolOffset - (rIdx * tapeDrawD) - (tapeDrawD / 2);
+                            drawTapeCircle(rCtx, cx, cy, tapeDrawD);
+                        }
+                    }
+                }
+            }
+
+            // 7. Footer Watermark Information Text
+            rCtx.fillStyle = "#a8a29e";
+            rCtx.font = "11px Sarabun";
+            rCtx.textAlign = "center";
+            rCtx.fillText("รายงานสรุปฉบับนี้สร้างขึ้นโดยแอปพลิเคชันวางแผนแพ็คเทป (v2.8) • ผลลัพธ์อิงตามเงื่อนไขข้อจำกัดความคลาดเคลื่อนทางกายภาพจริง", 400, 1075);
+            rCtx.textAlign = "left"; // reset
+
+            // 8. Trigger Browser File Download
+            try {
+                const link = document.createElement('a');
+                link.download = `รายงานการแพ็คเทป-${rawW}x${rawL}x${rawH}.png`;
+                link.href = repCanvas.toDataURL('image/png');
+                link.click();
+            } catch (err) {
+                console.error("การดาวน์โหลดรายงานล้มเหลว:", err);
+                alert("ไม่สามารถดาวน์โหลดภาพรายงานได้ เนื่องจากระบบสิทธิ์ความปลอดภัยในอุปกรณ์ของคุณ");
+            }
+        }
+    </script>
+</body>
+</html>
