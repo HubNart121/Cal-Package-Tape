@@ -28,14 +28,14 @@
     <header class="bg-gradient-to-r from-amber-800 to-amber-950 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="bg-amber-500 p-2.5 rounded-xl shadow-inner text-amber-950">
+                <div class="bg-amber-500 p-2.5 rounded-xl shadow-inner text-amber-950 flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight">ระบบวางแผนและคำนวณการแพ็คเทปลงกล่อง</h1>
-                    <p class="text-amber-200/80 text-xs sm:text-sm">คำนวณจำนวนม้วนที่มากที่สุด พร้อมระบบจำลองภาพ 2 มิติด้วย Canvas</p>
+                    <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight">ระบบวางแผนและคำนวณการแพ็คเทปลงกล่อง</h1>
+                    <p class="text-amber-200/80 text-xs sm:text-sm mt-0.5">คำนวณจำนวนม้วนที่มากที่สุด พร้อมระบบจำลองภาพ 2 มิติด้วย Canvas</p>
                 </div>
             </div>
             <div class="bg-amber-600/30 border border-amber-500/30 px-3 py-1.5 rounded-full text-xs font-semibold text-amber-200 self-start sm:self-center">
@@ -44,37 +44,38 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
             
             <!-- LEFT PANEL: INPUTS (lg:col-span-5) -->
             <section class="lg:col-span-5 space-y-6 flex flex-col">
                 
                 <!-- Box Dimensions Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 sm:p-6 space-y-4">
                     <div class="flex items-center gap-2 pb-3 border-b border-stone-100">
                         <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">1</span>
-                        <h2 class="text-lg font-bold text-stone-900">ระบุขนาดกล่องพัสดุ (ภายนอก)</h2>
+                        <h2 class="text-base sm:text-lg font-bold text-stone-900">ระบุขนาดกล่องพัสดุ (ภายนอก)</h2>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-3">
+                    <!-- Responsive Grid: stacks on mobile, 3 columns on tablet and desktop -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-3">
                         <div>
-                            <!-- Fixed height with flex items-end ensures perfect line balance for inputs -->
-                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-8 flex items-end">ความกว้าง (W) <span class="text-red-500 ml-0.5">*</span></label>
+                            <!-- Fixed heights adjusted with better responsive flex spacing -->
+                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">ความกว้าง (W) <span class="text-red-500 ml-0.5">*</span></label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
                                 <input type="number" id="boxW" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="27.5" step="0.1" min="1">
                                 <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-8 flex items-end">ความยาว (L) <span class="text-red-500 ml-0.5">*</span></label>
+                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">ความยาว (L) <span class="text-red-500 ml-0.5">*</span></label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
                                 <input type="number" id="boxL" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="42.0" step="0.1" min="1">
                                 <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-8 flex items-end">ความสูง (H) <span class="text-red-500 ml-0.5">*</span></label>
+                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">ความสูง (H) <span class="text-red-500 ml-0.5">*</span></label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
                                 <input type="number" id="boxH" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="31.5" step="0.1" min="1">
                                 <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
@@ -94,16 +95,16 @@
                 </div>
 
                 <!-- Tape Dimensions Card (Balanced Labels & Layouts) -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 sm:p-6 space-y-4">
                     <div class="flex items-center gap-2 pb-3 border-b border-stone-100">
                         <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">2</span>
-                        <h2 class="text-lg font-bold text-stone-900">ระบุขนาดม้วนเทป</h2>
+                        <h2 class="text-base sm:text-lg font-bold text-stone-900">ระบุขนาดม้วนเทป</h2>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <!-- Responsive Grid: stacks on mobile, 2 columns on tablet and desktop -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <!-- Fixed height and flex items-end resolves misalignment in wrapped multi-line labels -->
-                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-8 flex items-end">เส้นผ่านศูนย์กลางม้วน (D)</label>
+                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">เส้นผ่านศูนย์กลางม้วน (D)</label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
                                 <input type="number" id="tapeD" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="12.0" step="0.1" min="1">
                                 <select id="tapeDUnit" class="bg-stone-100 text-xs text-stone-600 font-bold px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
@@ -113,7 +114,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-8 flex items-end">หน้ากว้าง / ความหนาเทป (W)</label>
+                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">หน้ากว้าง / ความหนาเทป (W)</label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
                                 <input type="number" id="tapeW" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="2.4" step="0.1" min="0.1">
                                 <select id="tapeWUnit" class="bg-stone-100 text-xs text-stone-600 font-bold px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
@@ -125,10 +126,10 @@
                     </div>
                 </div>
 
-                <!-- Useful Packing Tips Card to balance the layout vertically on desktop -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 flex-1 hidden md:block">
+                <!-- Useful Packing Tips Card - Visible on tablet (sm) and desktop (md) for balanced layouts -->
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 flex-1 hidden sm:block">
                     <h3 class="text-xs font-bold text-stone-900 flex items-center gap-1.5 uppercase tracking-wide">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         คำแนะนำในการจัดแพ็คและขนส่ง
@@ -150,19 +151,19 @@
             <section class="lg:col-span-7 space-y-6">
                 
                 <!-- KPI Dashboard & Orientation Card -->
-                <div class="bg-gradient-to-br from-stone-850 to-stone-950 bg-stone-900 rounded-2xl shadow-lg border border-stone-800 text-white p-6 relative overflow-hidden">
+                <div class="bg-gradient-to-br from-stone-850 to-stone-950 bg-stone-900 rounded-2xl shadow-lg border border-stone-800 text-white p-5 sm:p-6 relative overflow-hidden">
                     <div class="absolute -right-12 -bottom-12 opacity-5 pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-64 h-64" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <span class="text-xs font-bold text-amber-400 tracking-wider uppercase">ผลลัพธ์การคำนวณที่ดีที่สุด</span>
-                            <h2 class="text-2xl font-black mt-1">แพ็คได้สูงสุดต่อกล่อง</h2>
+                            <h2 class="text-xl sm:text-2xl font-black mt-1">แพ็คได้สูงสุดต่อกล่อง</h2>
                         </div>
-                        <span class="bg-amber-500 text-stone-950 text-[11px] font-black px-3.5 py-1.5 rounded-full shadow-md" id="bestOrientationTag">
+                        <span class="bg-amber-500 text-stone-950 text-[11px] font-black px-3.5 py-1.5 rounded-full shadow-md self-start sm:self-auto" id="bestOrientationTag">
                             วางนอนราบ (แกนตั้งขึ้น)
                         </span>
                     </div>
@@ -170,28 +171,28 @@
                     <!-- Main Number and Breakdown Rows Detail -->
                     <div class="mt-6 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
                         <div class="flex items-baseline gap-2">
-                            <span class="text-6xl sm:text-7xl font-black text-amber-400 tracking-tight" id="kpiTotal">0</span>
-                            <span class="text-lg sm:text-xl font-bold text-stone-300">ม้วน / กล่อง</span>
+                            <span class="text-5xl sm:text-7xl font-black text-amber-400 tracking-tight leading-none" id="kpiTotal">0</span>
+                            <span class="text-base sm:text-xl font-bold text-stone-300">ม้วน / กล่อง</span>
                         </div>
                         
                         <!-- Detailed packing breakdown badge -->
-                        <div class="bg-stone-800/80 border border-stone-700/50 rounded-xl px-4 py-2.5 text-xs text-stone-300 flex flex-wrap sm:flex-nowrap gap-x-3 gap-y-1 items-center shadow-inner" id="packingBreakdown">
+                        <div class="bg-stone-800/80 border border-stone-700/50 rounded-xl px-4 py-2.5 text-xs text-stone-300 flex flex-wrap gap-x-3 gap-y-1.5 items-center shadow-inner" id="packingBreakdown">
                             <!-- Generated Dynamically -->
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-stone-800/80 text-xs text-stone-400">
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4 mt-8 pt-6 border-t border-stone-800/80 text-[10px] sm:text-xs text-stone-400">
                         <div>
-                            <p class="text-[10px] text-stone-500 font-bold uppercase">ขนาดใช้งานในกล่อง:</p>
-                            <p class="text-sm font-semibold text-stone-200 mt-1" id="usableBoxSize">-</p>
+                            <p class="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase">ขนาดใช้งานในกล่อง:</p>
+                            <p class="text-xs sm:text-sm font-semibold text-stone-200 mt-1" id="usableBoxSize">-</p>
                         </div>
                         <div>
-                            <p class="text-[10px] text-stone-500 font-bold uppercase">ปริมาตรรวมเทปที่จัดลงได้:</p>
-                            <p class="text-sm font-semibold text-stone-200 mt-1" id="totalTapeVolume">-</p>
+                            <p class="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase">ปริมาตรรวมเทปที่จัดลงได้:</p>
+                            <p class="text-xs sm:text-sm font-semibold text-stone-200 mt-1" id="totalTapeVolume">-</p>
                         </div>
                         <div>
-                            <p class="text-[10px] text-stone-500 font-bold uppercase">ประสิทธิภาพการใช้พื้นที่:</p>
-                            <p class="text-sm font-black text-amber-400 mt-1" id="efficiencyVal">0.0%</p>
+                            <p class="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase">ประสิทธิภาพการใช้พื้นที่:</p>
+                            <p class="text-xs sm:text-sm font-black text-amber-400 mt-1" id="efficiencyVal">0.0%</p>
                         </div>
                     </div>
 
@@ -207,40 +208,40 @@
                 </div>
 
                 <!-- Canvas Visualizer Container Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-3 border-b border-stone-100">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 sm:p-6 space-y-4">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pb-3 border-b border-stone-100">
                         <div class="flex items-center gap-2">
                             <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">3</span>
-                            <h2 class="text-lg font-bold text-stone-900">แผนภาพจำลองการจัดวางพัสดุ</h2>
+                            <h2 class="text-base sm:text-lg font-bold text-stone-900">แผนภาพจำลองการจัดวางพัสดุ</h2>
                         </div>
                         
                         <!-- Tabs Controls - Styled to scale perfectly and prevent awkward text cutting -->
                         <div class="bg-stone-100 p-1 rounded-xl flex gap-1 w-full md:w-auto">
-                            <button onclick="switchTab('top')" id="btnTabTop" class="flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap">
+                            <button onclick="switchTab('top')" id="btnTabTop" class="flex-1 md:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap">
                                 มุมมองด้านบน (Top View)
                             </button>
-                            <button onclick="switchTab('side')" id="btnTabSide" class="flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap">
+                            <button onclick="switchTab('side')" id="btnTabSide" class="flex-1 md:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap">
                                 มุมมองด้านข้าง (Side View)
                             </button>
                         </div>
                     </div>
 
                     <!-- Canvas Wrapper for responsive scaling -->
-                    <div class="bg-stone-50 rounded-xl border border-stone-200 p-4 flex flex-col items-center justify-center relative min-h-[380px]">
+                    <div class="bg-stone-50 rounded-xl border border-stone-200 p-3 sm:p-4 flex flex-col items-center justify-center relative min-h-[340px] sm:min-h-[380px]">
                         <canvas id="visualCanvas" class="max-w-full block"></canvas>
                         
-                        <div class="absolute bottom-2 text-[10px] text-stone-400 font-medium text-center pointer-events-none w-full">
+                        <div class="absolute bottom-2 text-[9px] sm:text-[10px] text-stone-400 font-medium text-center pointer-events-none w-full px-4">
                             * แสดงแผนภาพจำลองการบรรจุตามสัดส่วนจริง (Scale 2D) บนกล่องขนาดภายในใช้งาน
                         </div>
                     </div>
                     
-                    <div class="flex items-center justify-between text-xs text-stone-500 px-1 pt-1">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] sm:text-xs text-stone-500 gap-2 px-1 pt-1">
                         <div class="flex items-center gap-1.5">
-                            <span class="inline-block w-3 h-3 bg-amber-500/20 border border-amber-600 rounded"></span>
+                            <span class="inline-block w-3 h-3 bg-amber-500/20 border border-amber-600 rounded flex-shrink-0"></span>
                             <span>ขอบเขตจำลองขนาดเทป</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="inline-block w-3 h-3 border border-stone-400 border-dashed rounded"></span>
+                            <span class="inline-block w-3 h-3 border border-stone-400 border-dashed rounded flex-shrink-0"></span>
                             <span>ขนาดเผื่อช่องว่างขอบ (Tolerance)</span>
                         </div>
                     </div>
@@ -353,11 +354,11 @@
             const btnSide = document.getElementById('btnTabSide');
 
             if (tabName === 'top') {
-                btnTop.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap";
-                btnSide.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap";
+                btnTop.className = "flex-1 md:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap";
+                btnSide.className = "flex-1 md:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap";
             } else {
-                btnSide.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap";
-                btnTop.className = "flex-1 md:flex-none px-4 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap";
+                btnSide.className = "flex-1 md:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition duration-250 bg-white text-stone-900 shadow-sm whitespace-nowrap";
+                btnTop.className = "flex-1 md:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition duration-250 text-stone-600 hover:text-stone-950 whitespace-nowrap";
             }
 
             renderSimulation();
@@ -520,8 +521,8 @@
             const r = packingResult;
             const { bestWay, innerW, innerL, innerH, tapeD, tapeW, rawW, rawL, rawH, tolerance } = r;
 
-            // Set canvas target width dynamically based on parent wrapper width
-            const parentWidth = Math.max(280, canvas.parentNode ? canvas.parentNode.clientWidth - 32 : 300);
+            // Set canvas target width dynamically based on parent wrapper width (With safety guard for mobile)
+            const parentWidth = Math.max(260, canvas.parentNode ? canvas.parentNode.clientWidth - 32 : 300);
             canvas.style.width = `${parentWidth}px`;
             canvas.style.height = `350px`;
 
