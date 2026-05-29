@@ -34,51 +34,51 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight">ระบบวางแผนและคำนวณการแพ็คเทปลงกล่อง</h1>
+                    <h1 class="text-base sm:text-2xl font-extrabold tracking-tight">ระบบวางแผนและคำนวณการแพ็คเทปลงกล่อง</h1>
                     <p class="text-amber-200/80 text-xs sm:text-sm mt-0.5">คำนวณจำนวนม้วนที่มากที่สุด พร้อมระบบจำลองภาพ 2 มิติด้วย Canvas</p>
                 </div>
             </div>
             <div class="bg-amber-600/30 border border-amber-500/30 px-3 py-1.5 rounded-full text-xs font-semibold text-amber-200 self-start sm:self-center">
-                เวอร์ชันใช้งานจริง 2.8
+                เวอร์ชันใช้งานจริง 2.9
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mt-6 sm:mt-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
             
             <!-- LEFT PANEL: INPUTS (lg:col-span-5) -->
             <section class="lg:col-span-5 space-y-6 flex flex-col">
                 
                 <!-- Box Dimensions Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 sm:p-6 space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-6 space-y-4">
                     <div class="flex items-center gap-2 pb-3 border-b border-stone-100">
                         <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">1</span>
                         <h2 class="text-base sm:text-lg font-bold text-stone-900">ระบุขนาดกล่องพัสดุ (ภายนอก)</h2>
                     </div>
 
-                    <!-- Responsive Grid: stacks on mobile, 3 columns on tablet and desktop -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-3">
+                    <!-- Responsive Grid: stacks beautifully on mobile, 3 columns on tablet and desktop -->
+                    <div class="grid grid-cols-3 gap-2 sm:gap-3">
                         <div>
-                            <!-- Fixed heights adjusted with better responsive flex spacing -->
-                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">ความกว้าง (W) <span class="text-red-500 ml-0.5">*</span></label>
+                            <!-- Optimized typography for small mobile devices -->
+                            <label class="block text-[10px] sm:text-[11px] font-bold text-stone-500 mb-1.5 h-6 sm:h-8 flex items-end">กว้าง (W) <span class="text-red-500 ml-0.5">*</span></label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
-                                <input type="number" id="boxW" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="27.5" step="0.1" min="1">
-                                <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
+                                <input type="number" id="boxW" class="w-full bg-transparent pl-2 sm:pl-3 pr-1 text-xs sm:text-sm focus:outline-none text-right" value="27.5" step="0.1" min="1">
+                                <span class="bg-stone-100 text-[9px] sm:text-[10px] text-stone-500 font-bold px-1.5 sm:px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[30px] sm:min-w-[36px]">ซม.</span>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">ความยาว (L) <span class="text-red-500 ml-0.5">*</span></label>
+                            <label class="block text-[10px] sm:text-[11px] font-bold text-stone-500 mb-1.5 h-6 sm:h-8 flex items-end">ยาว (L) <span class="text-red-500 ml-0.5">*</span></label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
-                                <input type="number" id="boxL" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="42.0" step="0.1" min="1">
-                                <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
+                                <input type="number" id="boxL" class="w-full bg-transparent pl-2 sm:pl-3 pr-1 text-xs sm:text-sm focus:outline-none text-right" value="42.0" step="0.1" min="1">
+                                <span class="bg-stone-100 text-[9px] sm:text-[10px] text-stone-500 font-bold px-1.5 sm:px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[30px] sm:min-w-[36px]">ซม.</span>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">ความสูง (H) <span class="text-red-500 ml-0.5">*</span></label>
+                            <label class="block text-[10px] sm:text-[11px] font-bold text-stone-500 mb-1.5 h-6 sm:h-8 flex items-end">สูง (H) <span class="text-red-500 ml-0.5">*</span></label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
-                                <input type="number" id="boxH" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="31.5" step="0.1" min="1">
-                                <span class="bg-stone-100 text-[10px] text-stone-500 font-bold px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[36px]">ซม.</span>
+                                <input type="number" id="boxH" class="w-full bg-transparent pl-2 sm:pl-3 pr-1 text-xs sm:text-sm focus:outline-none text-right" value="31.5" step="0.1" min="1">
+                                <span class="bg-stone-100 text-[9px] sm:text-[10px] text-stone-500 font-bold px-1.5 sm:px-2 flex items-center justify-center border-l border-stone-200 select-none min-w-[30px] sm:min-w-[36px]">ซม.</span>
                             </div>
                         </div>
                     </div>
@@ -86,38 +86,38 @@
                     <!-- Tolerance Slider -->
                     <div class="pt-2">
                         <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs font-medium text-stone-600">เผื่อความหนากล่องและช่องว่างซ้าย-ขวา (Tolerance)</span>
+                            <span class="text-[11px] sm:text-xs font-medium text-stone-600">เผื่อความหนากล่องและช่องว่าง (Tolerance)</span>
                             <span class="text-xs font-bold text-amber-600" id="toleranceVal">0.2 ซม.</span>
                         </div>
                         <input type="range" id="tolerance" min="0" max="2" step="0.1" value="0.2" class="w-full h-1.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-amber-600">
-                        <p class="text-[10px] text-stone-400 mt-1">ระบบจะหักค่านี้ออกจากขนาดกล่องภายนอกเพื่อใช้เป็นพื้นที่ทำงานจริงในการคำนวณ</p>
+                        <p class="text-[10px] text-stone-400 mt-1 leading-normal">ระบบจะหักค่านี้ออกจากขนาดกล่องภายนอกเพื่อใช้เป็นพื้นที่ทำงานจริงในการคำนวณ</p>
                     </div>
                 </div>
 
                 <!-- Tape Dimensions Card (Balanced Labels & Layouts) -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 sm:p-6 space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-6 space-y-4">
                     <div class="flex items-center gap-2 pb-3 border-b border-stone-100">
                         <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">2</span>
                         <h2 class="text-base sm:text-lg font-bold text-stone-900">ระบุขนาดม้วนเทป</h2>
                     </div>
 
-                    <!-- Responsive Grid: stacks on mobile, 2 columns on tablet and desktop -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Responsive Grid for Tape Dimensions -->
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
                         <div>
-                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">เส้นผ่านศูนย์กลางม้วน (D)</label>
+                            <label class="block text-[11px] sm:text-xs font-semibold text-stone-500 mb-1.5 h-6 sm:h-8 flex items-end">เส้นผ่านศูนย์กลาง (D)</label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
-                                <input type="number" id="tapeD" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="12.0" step="0.1" min="1">
-                                <select id="tapeDUnit" class="bg-stone-100 text-xs text-stone-600 font-bold px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
+                                <input type="number" id="tapeD" class="w-full bg-transparent pl-2 sm:pl-3 pr-1 text-xs sm:text-sm focus:outline-none text-right" value="12.0" step="0.1" min="1">
+                                <select id="tapeDUnit" class="bg-stone-100 text-[10px] sm:text-xs text-stone-600 font-bold px-1.5 sm:px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
                                     <option value="cm">ซม.</option>
                                     <option value="mm">มม.</option>
                                 </select>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-stone-500 mb-1.5 h-auto sm:h-8 flex items-end">หน้ากว้าง / ความหนาเทป (W)</label>
+                            <label class="block text-[11px] sm:text-xs font-semibold text-stone-500 mb-1.5 h-6 sm:h-8 flex items-end">หน้ากว้าง / หนา (W)</label>
                             <div class="flex rounded-lg border border-stone-300 bg-stone-50 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 overflow-hidden h-10">
-                                <input type="number" id="tapeW" class="w-full bg-transparent pl-3 pr-1 text-sm focus:outline-none text-right" value="2.4" step="0.1" min="0.1">
-                                <select id="tapeWUnit" class="bg-stone-100 text-xs text-stone-600 font-bold px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
+                                <input type="number" id="tapeW" class="w-full bg-transparent pl-2 sm:pl-3 pr-1 text-xs sm:text-sm focus:outline-none text-right" value="2.4" step="0.1" min="0.1">
+                                <select id="tapeWUnit" class="bg-stone-100 text-[10px] sm:text-xs text-stone-600 font-bold px-1.5 sm:px-2 focus:outline-none cursor-pointer border-l border-stone-200 h-full">
                                     <option value="cm">ซม.</option>
                                     <option value="mm">มม.</option>
                                 </select>
@@ -127,14 +127,14 @@
                 </div>
 
                 <!-- Useful Packing Tips Card - Visible on tablet (sm) and desktop (md) for balanced layouts -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 flex-1 hidden sm:block">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 flex-1 hidden lg:block">
                     <h3 class="text-xs font-bold text-stone-900 flex items-center gap-1.5 uppercase tracking-wide">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         คำแนะนำในการจัดแพ็คและขนส่ง
                     </h3>
-                    <ul class="text-[11px] text-stone-500 space-y-2 leading-relaxed">
+                    <ul class="text-[11px] text-stone-500 space-y-2.5 leading-relaxed">
                         <li class="flex items-start gap-1.5">
                             <span class="text-amber-500 font-bold mt-0.5">•</span>
                             <span><strong>ทิศทางการรับแรงกด:</strong> การวางแกนตั้งขึ้น (วางนอนราบ) จะช่วยให้กล่องรับน้ำหนักได้สูงสุดและป้องกันแกนกระดาษคดงอระหว่างการวางซ้อนของขนส่ง</span>
@@ -160,8 +160,8 @@
 
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <span class="text-xs font-bold text-amber-400 tracking-wider uppercase">ผลลัพธ์การคำนวณที่ดีที่สุด</span>
-                            <h2 class="text-xl sm:text-2xl font-black mt-1">แพ็คได้สูงสุดต่อกล่อง</h2>
+                            <span class="text-[11px] sm:text-xs font-bold text-amber-400 tracking-wider uppercase">ผลลัพธ์การคำนวณที่ดีที่สุด</span>
+                            <h2 class="text-lg sm:text-2xl font-black mt-1">แพ็คได้สูงสุดต่อกล่อง</h2>
                         </div>
                         <span class="bg-amber-500 text-stone-950 text-[11px] font-black px-3.5 py-1.5 rounded-full shadow-md self-start sm:self-auto" id="bestOrientationTag">
                             วางนอนราบ (แกนตั้งขึ้น)
@@ -169,14 +169,14 @@
                     </div>
 
                     <!-- Main Number and Breakdown Rows Detail -->
-                    <div class="mt-6 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                    <div class="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="flex items-baseline gap-2">
                             <span class="text-5xl sm:text-7xl font-black text-amber-400 tracking-tight leading-none" id="kpiTotal">0</span>
                             <span class="text-base sm:text-xl font-bold text-stone-300">ม้วน / กล่อง</span>
                         </div>
                         
-                        <!-- Detailed packing breakdown badge -->
-                        <div class="bg-stone-800/80 border border-stone-700/50 rounded-xl px-4 py-2.5 text-xs text-stone-300 flex flex-wrap gap-x-3 gap-y-1.5 items-center shadow-inner" id="packingBreakdown">
+                        <!-- Detailed packing breakdown grid (Responsive: turns to clean columns on mobile) -->
+                        <div class="w-full sm:w-auto" id="packingBreakdown">
                             <!-- Generated Dynamically -->
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                         </div>
                     </div>
 
-                    <!-- Consolidated PNG Report Exporter Button (Fixed Icon Scale) -->
+                    <!-- Consolidated PNG Report Exporter Button -->
                     <div class="mt-6 pt-5 border-t border-stone-800/80 flex">
                         <button onclick="downloadPNGReport()" class="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 py-3 px-4 rounded-xl text-xs font-black tracking-wide transition flex items-center justify-center gap-2 shadow-lg active:scale-95">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -208,7 +208,7 @@
                 </div>
 
                 <!-- Canvas Visualizer Container Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 sm:p-6 space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-6 space-y-4">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pb-3 border-b border-stone-100">
                         <div class="flex items-center gap-2">
                             <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">3</span>
@@ -227,7 +227,7 @@
                     </div>
 
                     <!-- Canvas Wrapper for responsive scaling -->
-                    <div class="bg-stone-50 rounded-xl border border-stone-200 p-3 sm:p-4 flex flex-col items-center justify-center relative min-h-[340px] sm:min-h-[380px]">
+                    <div class="bg-stone-50 rounded-xl border border-stone-200 p-3 sm:p-4 flex flex-col items-center justify-center relative min-h-[300px] sm:min-h-[380px]">
                         <canvas id="visualCanvas" class="max-w-full block"></canvas>
                         
                         <div class="absolute bottom-2 text-[9px] sm:text-[10px] text-stone-400 font-medium text-center pointer-events-none w-full px-4">
@@ -478,12 +478,22 @@
                 detailText = `สูง ${grid.rows} × กว้าง ${grid.cols}`;
             }
 
+            // Dynamic grid layout for breakdown details (transforms beautifully on mobile)
             if (packingBreakdown) {
+                packingBreakdown.className = "grid grid-cols-3 gap-1.5 w-full bg-stone-850 border border-stone-750 rounded-xl p-2.5 text-center text-xs text-stone-300 shadow-inner mt-4 sm:mt-0 sm:w-auto sm:flex sm:items-center sm:gap-x-4 sm:p-2 sm:px-4";
                 packingBreakdown.innerHTML = `
-                    <span class="text-[10px] text-stone-500 font-bold uppercase tracking-wider block mr-1 sm:border-r sm:border-stone-700 sm:pr-3">ผลการจัดแถว:</span>
-                    <span class="text-stone-200">จัดได้ <span class="font-bold text-amber-400">${totalStacks} ตั้ง/กอง</span> (${detailText})</span>
-                    <span class="text-stone-700 hidden sm:inline">|</span>
-                    <span class="text-stone-200">${labelDepth}: <span class="font-bold text-amber-400">${grid.layers} ชั้น</span></span>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:border-r sm:border-stone-800 sm:pr-4">
+                        <span class="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase tracking-wider select-none">จัดวาง</span>
+                        <span class="text-xs font-bold text-amber-400 sm:text-stone-200">${totalStacks} ตั้ง</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:border-r sm:border-stone-800 sm:pr-4">
+                        <span class="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase tracking-wider select-none">จัดแถว</span>
+                        <span class="text-[10px] sm:text-xs font-bold text-stone-300">${grid.rows}×${grid.cols}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-0.5">
+                        <span class="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase tracking-wider select-none">${labelDepth}</span>
+                        <span class="text-xs font-bold text-amber-400 sm:text-stone-200">${grid.layers} ชั้น</span>
+                    </div>
                 `;
             }
 
@@ -521,19 +531,24 @@
             const r = packingResult;
             const { bestWay, innerW, innerL, innerH, tapeD, tapeW, rawW, rawL, rawH, tolerance } = r;
 
+            const isMobile = window.innerWidth < 640;
+
             // Set canvas target width dynamically based on parent wrapper width (With safety guard for mobile)
             const parentWidth = Math.max(260, canvas.parentNode ? canvas.parentNode.clientWidth - 32 : 300);
+            
+            // Dynamic canvas height to prevent heavy scrolling on tiny smartphone screens
+            const targetHeight = isMobile ? Math.min(270, parentWidth * 0.85) : 350;
             canvas.style.width = `${parentWidth}px`;
-            canvas.style.height = `350px`;
+            canvas.style.height = `${targetHeight}px`;
 
             // Adjust internal canvas viewport for high-DPI retina displays
             const scaleDPI = window.devicePixelRatio || 1;
             canvas.width = parentWidth * scaleDPI;
-            canvas.height = 350 * scaleDPI;
+            canvas.height = targetHeight * scaleDPI;
             ctx.scale(scaleDPI, scaleDPI);
 
             const cw = parentWidth;
-            const ch = 350;
+            const ch = targetHeight;
 
             // Reset backgrounds
             ctx.clearRect(0, 0, cw, ch);
@@ -563,7 +578,8 @@
                 }
             }
 
-            const padding = 55;
+            // Dynamic padding: lower margin padding on mobile to make the visualization larger and readable
+            const padding = isMobile ? 40 : 55;
             const drawAreaW = cw - (padding * 2);
             const drawAreaH = ch - (padding * 2);
 
@@ -595,18 +611,18 @@
                 ctx.setLineDash([]);
             }
 
-            // Draw Dimension arrows & text
+            // Draw Dimension arrows & text (Scales font size for mobile screens)
             ctx.fillStyle = "#57534e";
-            ctx.font = "bold 11px Sarabun";
+            ctx.font = isMobile ? "bold 9px Sarabun" : "bold 11px Sarabun";
             ctx.textAlign = "center";
 
-            const dimOffset = 25;
-            drawDimensionLine(ctx, startX, startY + boxDrawH + dimOffset, startX + boxDrawW, startY + boxDrawH + dimOffset, labelXText);
+            const dimOffset = isMobile ? 18 : 25;
+            drawDimensionLine(ctx, startX, startY + boxDrawH + dimOffset, startX + boxDrawW, startY + boxDrawH + dimOffset, labelXText, isMobile);
 
             ctx.save();
             ctx.translate(startX - dimOffset, startY + boxDrawH / 2);
             ctx.rotate(-Math.PI / 2);
-            drawDimensionLine(ctx, 0, -boxDrawH/2, 0, boxDrawH/2, labelYText);
+            drawDimensionLine(ctx, 0, -boxDrawH/2, 0, boxDrawH/2, labelYText, isMobile);
             ctx.restore();
 
             const innerStartX = startX + (tolOffset / 2);
@@ -665,7 +681,7 @@
                         for (let cIdx = 0; cIdx < grid.cols; cIdx++) {
                             const ry = innerStartY + (cIdx * tapeDrawD);
                             const rx = innerStartX + (lIdx * tapeDrawW);
-                            drawTapeRectangle(ctx, rx, ry, tapeDrawW, tapeDrawD, true);
+                            drawTapeRectangle(ctx, ry, rx, tapeDrawW, tapeDrawD, true);
                         }
                     }
                 } else {
@@ -682,7 +698,7 @@
         }
 
         // Draw dimension lines with stylish arrowheads on end points
-        function drawDimensionLine(targetCtx, x1, y1, x2, y2, text) {
+        function drawDimensionLine(targetCtx, x1, y1, x2, y2, text, isMobile = false) {
             targetCtx.strokeStyle = "#78716c";
             targetCtx.lineWidth = 1;
 
@@ -691,7 +707,7 @@
             targetCtx.lineTo(x2, y2);
             targetCtx.stroke();
 
-            const arrowSize = 4;
+            const arrowSize = isMobile ? 3 : 4;
             targetCtx.fillStyle = "#78716c";
 
             if (x1 === x2) { // Vertical line
@@ -1089,7 +1105,7 @@
             rCtx.fillStyle = "#a8a29e";
             rCtx.font = "11px Sarabun";
             rCtx.textAlign = "center";
-            rCtx.fillText("รายงานสรุปฉบับนี้สร้างขึ้นโดยแอปพลิเคชันวางแผนแพ็คเทป (v2.8) • ผลลัพธ์อิงตามเงื่อนไขข้อจำกัดความคลาดเคลื่อนทางกายภาพจริง", 400, 1075);
+            rCtx.fillText("รายงานสรุปฉบับนี้สร้างขึ้นโดยแอปพลิเคชันวางแผนแพ็คเทป (v2.9) • ผลลัพธ์อิงตามเงื่อนไขข้อจำกัดความคลาดเคลื่อนทางกายภาพจริง", 400, 1075);
             rCtx.textAlign = "left"; // reset
 
             // 8. Trigger Browser File Download
